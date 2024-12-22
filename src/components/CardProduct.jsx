@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaShoppingCart } from 'react-icons/fa'; // Import ikon keranjang dari react-icons
 
 const CardProduct = ({ product }) => {
   return (
