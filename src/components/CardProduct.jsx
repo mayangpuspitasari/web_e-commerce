@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import product from '../utils/data';
+import { FaShoppingCart } from 'react-icons/fa'; // Import ikon keranjang dari react-icons
 
 const CardProduct = ({ product }) => {
   return (
@@ -12,9 +12,6 @@ const CardProduct = ({ product }) => {
       />
       <h2 className="text-lg font-semibold">{product.name}</h2>
       <p className="text-gray-600">Rp {product.harga.toLocaleString()}</p>
-      <button className="mt-2 px-4 py-2 bg-b;ue-500 text-white rounded">
-        Masukkan Keranjang
-      </button>
     </div>
   );
 };
