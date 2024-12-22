@@ -1,3 +1,5 @@
+import Link from 'react-router-dom';
+
 const Navbar = () => {
   return (
     <div>
@@ -24,36 +26,40 @@ const Navbar = () => {
             <nav>
               <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                 <li>
-                  <a
+                  <Link
+                    to="/"
                     className="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                     href="#"
                   >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
+                    to="/products"
                     className="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                     href="#"
                   >
                     Product
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
+                    to="/about"
                     className="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                     href="#"
                   >
                     Tentang Kami
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
+                    to="/kontak"
                     className="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                     href="#"
                   >
                     Kontak
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
