@@ -1,8 +1,10 @@
-import React from 'react';
-import products from '../utils/data';
+import { products } from '../utils/data';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons'; // Import bintang
+import { Link } from 'react-router-dom'; // Import Link
 
 const ProductPopuler = () => {
-  // Membatasi jumlah produk yang ditampilkan
   const popularProducts = products.slice(0, 3);
 
   return (
@@ -16,16 +18,38 @@ const ProductPopuler = () => {
               className="bg-white shadow-md rounded-lg overflow-hidden"
             >
               <img
-                src={product.image}
+                src={product.img}
                 alt={product.name}
                 className="w-full h-56 object-cover"
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold">{product.name}</h3>
-                <p className="text-gray-500">{product.price}</p>
-                <button className="mt-4 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
-                  View Product
-                </button>
+                <Link to={`/product/${product.id}`}>
+                  <h3 className="text-lg font-semibold text-blue-600 hover:underline">
+                    {product.name}
+                  </h3>
+                </Link>
+                <p className="text-gray-500">{product.harga}</p>
+                <div className="flex items-center mt-2">
+                  {/* Rating bintang */}
+                  {[...Array(5)].map((_, index) => (
+                    <FontAwesomeIcon
+                      key={index}
+                      icon={faStar}
+                      className={`text-yellow-400 ${
+                        index < product.rating ? 'text-yellow-500' : ''
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="flex justify-between mt-4">
+                  <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
+                    Beli Sekarang
+                  </button>
+                  <button className="px-4 py-2 bg-gray-300 text-gray-800 text-sm font-medium rounded hover:bg-gray-400 flex items-center">
+                    <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
+                    Keranjang
+                  </button>
+                </div>
               </div>
             </div>
           ))}

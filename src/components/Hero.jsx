@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
+import l1 from '../assets/images/l1.jpg';
+import l2 from '../assets/images/l2.jpg';
+import l3 from '../assets/images/l3.jpeg';
 
 const slides = [
   {
-    image:
-      'https://images.unsplash.com/photo-1422190441165-ec2956dc9ecc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=80',
+    image: l1,
     title: 'Stripy Zig Zag Jigsaw Pillow and Duvet Set',
-    buttonText: 'View Product',
   },
   {
-    image:
-      'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjM0MTM2fQ&auto=format&fit=crop&w=1600&q=80',
+    image: l2,
     title: 'Modern Lamp for Your Home',
-    buttonText: 'Discover More',
   },
   {
-    image:
-      'https://images.unsplash.com/photo-1519327232521-1ea2c736d34d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=80',
+    image: l3,
     title: 'Elegant Wooden Clock',
-    buttonText: 'Shop Now',
   },
 ];
 
@@ -52,12 +49,6 @@ const HeroSlider = () => {
             <div className="w-full h-full flex items-center justify-center bg-black bg-opacity-40">
               <div className="text-white text-center">
                 <h1 className="text-4xl font-bold mb-4">{slide.title}</h1>
-                <a
-                  href="#"
-                  className="mt-4 inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded hover:bg-blue-700"
-                >
-                  {slide.buttonText}
-                </a>
               </div>
             </div>
           </div>

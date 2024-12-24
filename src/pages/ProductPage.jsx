@@ -1,6 +1,6 @@
 import React from 'react';
 import CardProduct from '../components/CardProduct';
-import products from '../utils/data';
+import { products } from '../utils/data';
 
 const ProductsPage = () => {
   return (
