@@ -7,11 +7,14 @@ const Footer = () => {
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
           {/* Logo dan Deskripsi */}
           <div className="lg:w-1/3">
-            <h2 className="text-2xl font-bold mb-4">Nordics</h2>
+            <h2 className="text-2xl font-bold mb-4">Brownis</h2>
             <p className="text-gray-400">
-              Nordics adalah toko online yang menyediakan produk berkualitas
-              untuk melengkapi kebutuhan Anda sehari-hari. Kami selalu
-              mengutamakan kualitas dan pelayanan terbaik.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
+              quasi, nihil veritatis quas quam totam iste? Fugit hic, reiciendis
+              obcaecati deleniti dolore repellendus rerum minima similique
+              accusantium, adipisci libero optio laboriosam molestias. Odit,
+              tempora consequatur quasi animi officia est accusamus natus ullam
+              facere.
             </p>
           </div>
 
