@@ -14,6 +14,7 @@ export const products = [
     img: b1,
     harga: 100000,
     rating: 5,
+    description: 'Ini adalah deskripsi produk 1.',
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ export const products = [
     img: b2,
     harga: 200000,
     rating: 5,
+    description: 'Ini adalah deskripsi produk 1.',
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ export const products = [
     img: b3,
     harga: 100000,
     rating: 2,
+    description: 'Ini adalah deskripsi produk 1.',
   },
   {
     id: 4,
@@ -35,6 +38,7 @@ export const products = [
     img: b4,
     harga: 200000,
     rating: 5,
+    description: 'Ini adalah deskripsi produk 1.',
   },
   {
     id: 5,
@@ -42,6 +46,7 @@ export const products = [
     img: b5,
     harga: 200000,
     rating: 4,
+    description: 'Ini adalah deskripsi produk 1.',
   },
 ];
 
