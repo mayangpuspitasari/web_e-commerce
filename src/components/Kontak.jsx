@@ -30,7 +30,7 @@ const Kontak = () => {
                 <span className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded-full mr-4">
                   <i className="fas fa-map-marker-alt"></i>
                 </span>
-                <span>Jl. Merdeka No. 123, Jakarta, Indonesia</span>
+                <span> Jl. Imam Bonjol. 229, Kisaran, Indonesia</span>
               </li>
               <li className="flex items-center">
                 <span className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded-full mr-4">
@@ -48,7 +48,7 @@ const Kontak = () => {
                 <span className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded-full mr-4">
                   <i className="fas fa-clock"></i>
                 </span>
-                <span>Senin - Jumat: 09.00 - 18.00</span>
+                <span>Senin - Sabtu: 09.00 - 18.00</span>
               </li>
             </ul>
           </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -9,12 +10,13 @@ const Footer = () => {
           <div className="lg:w-1/3">
             <h2 className="text-2xl font-bold mb-4">Brownis</h2>
             <p className="text-gray-400">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-              quasi, nihil veritatis quas quam totam iste? Fugit hic, reiciendis
-              obcaecati deleniti dolore repellendus rerum minima similique
-              accusantium, adipisci libero optio laboriosam molestias. Odit,
-              tempora consequatur quasi animi officia est accusamus natus ullam
-              facere.
+              Brownis adalah brand spesial yang menghadirkan berbagai varian
+              brownies lezat dengan kualitas terbaik. Kami menjual brownies
+              dengan tekstur lembut, rasa cokelat yang kaya, dan berbagai
+              topping menarik yang cocok untuk semua kalangan. Mulai dari
+              brownies klasik hingga kreasi modern dengan kombinasi rasa unik,
+              Brownis selalu berkomitmen untuk memberikan kepuasan dalam setiap
+              gigitan.
             </p>
           </div>
 
@@ -23,24 +25,24 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4">Navigasi</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/" className="text-gray-400 hover:text-white">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/products" className="text-gray-400 hover:text-white">
                   Produk
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/about" className="text-gray-400 hover:text-white">
                   Tentang Kami
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/kontak" className="text-gray-400 hover:text-white">
                   Kontak
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -52,7 +54,7 @@ const Footer = () => {
               <li>
                 <span className="text-gray-400">Alamat:</span>
                 <br />
-                Jl. Merdeka No. 123, Jakarta, Indonesia
+                Jl. Imam Bonjol. 229, Kisaran, Indonesia
               </li>
               <li>
                 <span className="text-gray-400">Telepon:</span>
@@ -70,7 +72,7 @@ const Footer = () => {
 
         {/* Hak Cipta */}
         <div className="mt-8 border-t border-gray-700 pt-6 text-center text-gray-500">
-          &copy; 2024 Nordics. Semua Hak Dilindungi.
+          &copy; 2024 Brownis. Semua Hak Dilindungi.
         </div>
       </div>
     </footer>
