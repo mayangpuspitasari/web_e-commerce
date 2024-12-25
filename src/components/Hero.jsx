@@ -6,15 +6,16 @@ import l3 from '../assets/images/l3.jpeg';
 const slides = [
   {
     image: l1,
-    title: 'Stripy Zig Zag Jigsaw Pillow and Duvet Set',
+    description: 'Rich, gooey brownies with a deep chocolate flavor.',
   },
   {
     image: l2,
-    title: 'Modern Lamp for Your Home',
+    description: 'Perfectly baked brownies with a crispy top and soft center.',
   },
   {
     image: l3,
-    title: 'Elegant Wooden Clock',
+    description:
+      'Delicious brownies topped with crunchy nuts for extra texture.',
   },
 ];
 
@@ -34,7 +35,7 @@ const HeroSlider = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-96 overflow-hidden">
       {/* Slide */}
       <div
         className="absolute w-full h-full transition-transform duration-500 ease-in-out flex"
@@ -44,11 +45,14 @@ const HeroSlider = () => {
           <div
             key={index}
             className="flex-shrink-0 w-full h-full bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide.image})` }}
+            style={{
+              backgroundImage: `url(${slide.image})`,
+              objectFit: 'cover',
+            }}
           >
             <div className="w-full h-full flex items-center justify-center bg-black bg-opacity-40">
               <div className="text-white text-center">
-                <h1 className="text-4xl font-bold mb-4">{slide.title}</h1>
+                <h1 className="text-2xl font-bold mb-4">{slide.description}</h1>
               </div>
             </div>
           </div>
