@@ -20,7 +20,7 @@ const CardProduct = ({ product }) => {
         className="w-full h-56 object-cover"
       />
       <div className="p-4">
-        <Link to={`/product/${product.id}`}>
+        <Link to={`/products/${product.id}`}>
           <h3 className="text-lg font-semibold text-blue-600 hover:underline mb-2">
             {product.name}
           </h3>
@@ -42,7 +42,7 @@ const CardProduct = ({ product }) => {
           ))}
         </div>
 
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-start gap-5 mt-4">
           <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
             Beli Sekarang
           </button>

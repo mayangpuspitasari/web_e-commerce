@@ -10,43 +10,48 @@ import l3 from '../assets/images/l3.jpeg';
 export const products = [
   {
     id: 1,
-    name: 'Produk 1',
+    name: 'Nutty Brownie',
     img: b1,
     harga: 100000,
     rating: 5,
-    description: 'Ini adalah deskripsi produk 1.',
+    description:
+      'Brownies klasik yang dihiasi kacang almond dan kacang mete di atasnya, memberikan rasa renyah yang memikat saat digigit. Cocok untuk pecinta kombinasi cokelat dan kacang.',
   },
   {
     id: 2,
-    name: 'Produk 2',
+    name: 'Berry Choco Bliss',
     img: b2,
     harga: 200000,
     rating: 5,
-    description: 'Ini adalah deskripsi produk 1.',
+    description:
+      'Brownies dengan topping strawberry kering, oreo, dan taburan kacang almond, menciptakan perpaduan rasa manis, asam, dan gurih yang sempurna.',
   },
   {
     id: 3,
-    name: 'Produk 3',
+    name: 'Oreo Delight',
     img: b3,
     harga: 100000,
     rating: 2,
-    description: 'Ini adalah deskripsi produk 1.',
+    description:
+      'Brownies lembut dengan topping oreo dan cokelat chip yang meleleh di mulut. Pilihan sempurna untuk pencinta cokelat dan biskuit.',
   },
   {
     id: 4,
-    name: 'Produk 4',
+    name: ' Cashew Cheese Brownie',
     img: b4,
     harga: 200000,
     rating: 5,
-    description: 'Ini adalah deskripsi produk 1.',
+    description:
+      'Kombinasi brownies cokelat yang kaya dengan keju parut dan kacang mete di atasnya, memberikan rasa manis, gurih, dan creamy dalam setiap gigitan.',
   },
   {
     id: 5,
-    name: 'Modern Lamp',
+    name: 'Choco Mocha Swirl',
     img: b5,
     harga: 200000,
     rating: 4,
-    description: 'Ini adalah deskripsi produk 1.',
+    description:
+      'Brownies cokelat dengan pola swirl mocha yang memikat, cocok untuk pecinta kombinasi kopi dan cokelat.',
   },
 ];
 
