@@ -22,7 +22,7 @@ const DetailPage = () => {
     return <p className="text-center mt-10 text-gray-600">Product not found</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl mx-auto p-6 pt-28">
       {/* Card Container */}
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">
         {/* Product Image */}
