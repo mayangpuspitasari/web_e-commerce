@@ -9,7 +9,15 @@ const Sidebar = () => {
         <ul className="space-y-2 px-4">
           <li>
             <Link
-              to="/admin/products"
+              to="/admin"
+              className="block py-2 px-4 rounded hover:bg-gray-700"
+            >
+              Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/product"
               className="block py-2 px-4 rounded hover:bg-gray-700"
             >
               Products

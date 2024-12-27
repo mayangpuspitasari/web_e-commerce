@@ -6,6 +6,7 @@ import DetailPage from './pages/DetailPage';
 import AdminPage from './pages/AdminPage';
 import MainLayout from './layout/MainLayout';
 import AdminLayout from './layout/AdminLayout';
+import Product from './components/Admin/Product';
 // import LoginPages from './pages/LoginPages';
 // import RegisterPage from './pages/RegisterPage';
 
@@ -49,6 +50,14 @@ const App = () => {
           element={
             <AdminLayout>
               <AdminPage />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/product"
+          element={
+            <AdminLayout>
+              <Product />
             </AdminLayout>
           }
         />

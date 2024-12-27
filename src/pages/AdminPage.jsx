@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from '../components/Admin/Sidebar';
 import Header from '../components/Admin/Header';
+import Dashboard from '../components/Admin/Dashboard';
 
 const AdminPage = () => {
   return (
@@ -24,6 +25,7 @@ const AdminPage = () => {
               section to view more details.
             </p>
           </div>
+          <Dashboard />
         </main>
       </div>
     </div>
