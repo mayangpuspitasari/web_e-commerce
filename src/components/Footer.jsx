@@ -64,7 +64,7 @@ const Footer = () => {
               <li>
                 <span className="text-gray-400">Email:</span>
                 <br />
-                info@example.com
+                brownies@gmail.com
               </li>
             </ul>
           </div>
@@ -72,7 +72,7 @@ const Footer = () => {
 
         {/* Hak Cipta */}
         <div className="mt-8 border-t border-gray-700 pt-6 text-center text-gray-500">
-          &copy; 2024 Brownis. Semua Hak Dilindungi.
+          &copy; 2024 Brownies. Semua Hak Dilindungi.
         </div>
       </div>
     </footer>

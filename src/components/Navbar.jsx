@@ -37,7 +37,7 @@ const Navbar = () => {
               <circle cx="14" cy="8" r="1" fill="#fff" />
               <circle cx="12" cy="10" r="1" fill="#fff" />
             </svg>
-            Brownis
+            Brownies
           </Link>
         </div>
 
