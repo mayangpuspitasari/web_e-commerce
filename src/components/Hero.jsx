@@ -35,7 +35,7 @@ const HeroSlider = () => {
   };
 
   return (
-    <div className="relative w-full h-96 overflow-hidden">
+    <div className="relative w-full h-96 pt-5 overflow-hidden">
       {/* Slide */}
       <div
         className="absolute w-full h-full transition-transform duration-500 ease-in-out flex"
