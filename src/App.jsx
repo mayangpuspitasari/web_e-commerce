@@ -6,6 +6,8 @@ import DetailPage from './pages/DetailPage';
 import AdminPage from './pages/AdminPage';
 import MainLayout from './layout/MainLayout';
 import AdminLayout from './layout/AdminLayout';
+// import LoginPages from './pages/LoginPages';
+// import RegisterPage from './pages/RegisterPage';
 
 const App = () => {
   return (
@@ -36,6 +38,10 @@ const App = () => {
             </MainLayout>
           }
         />
+
+        {/* Rute untuk Login dan Register
+        <Route path="/login" element={<LoginPages />} />
+        <Route path="/register" element={<RegisterPage />} /> */}
 
         {/* Rute dengan AdminLayout */}
         <Route
