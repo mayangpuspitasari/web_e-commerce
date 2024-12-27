@@ -1,25 +1,52 @@
-import react from 'react';
-import Navbar from './components/Navbar';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import Footer from './components/Footer';
 import ProductsPage from './pages/ProductPage';
 import DetailPage from './pages/DetailPage';
+import AdminPage from './pages/AdminPage';
+import MainLayout from './layout/MainLayout';
+import AdminLayout from './layout/AdminLayout';
+
 const App = () => {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
+      <Routes>
+        {/* Rute dengan MainLayout */}
+        <Route
+          path="/"
+          element={
+            <MainLayout>
+              <HomePage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <MainLayout>
+              <ProductsPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <MainLayout>
+              <DetailPage />
+            </MainLayout>
+          }
+        />
 
-        <main className="felx-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:id" element={<DetailPage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+        {/* Rute dengan AdminLayout */}
+        <Route
+          path="/admin"
+          element={
+            <AdminLayout>
+              <AdminPage />
+            </AdminLayout>
+          }
+        />
+      </Routes>
     </Router>
   );
 };

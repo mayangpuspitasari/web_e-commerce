@@ -2,16 +2,21 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Menambahkan state untuk menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Untuk menu hamburger
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // Untuk dropdown user
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Mengubah status menu ketika tombol hamburger ditekan
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
   };
 
   return (
     <nav className="w-full bg-white shadow-md fixed top-0 z-30 py-2">
       <div className="container mx-auto flex items-center justify-between px-6">
-        {/* Logo di kiri */}
+        {/* Logo */}
         <div className="flex items-center">
           <Link
             to="/"
@@ -41,7 +46,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Menu Hamburger untuk layar kecil */}
+        {/* Menu Hamburger */}
         <div className="md:hidden flex items-center">
           <button
             onClick={toggleMenu}
@@ -64,12 +69,11 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Menu di tengah */}
+        {/* Menu Tengah */}
         <div
           className={`flex-1 md:flex items-center justify-center md:order-2 ${
             isMenuOpen ? 'block' : 'hidden'
           } md:block`}
-          id="menu"
         >
           <ul className="flex flex-col md:flex-row items-center text-base text-gray-700">
             <li>
@@ -107,7 +111,7 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Ikon keranjang dan pengguna di kanan */}
+        {/* Ikon Keranjang dan Pengguna */}
         <div className="flex items-center md:order-3">
           <Link
             to="/cart"
@@ -124,19 +128,39 @@ const Navbar = () => {
             </svg>
           </Link>
 
-          <Link
-            to="/profile"
-            className="block py-2 px-4 md:inline-block no-underline hover:text-black ml-2"
-          >
-            <svg
-              className="fill-current text-gray-800 w-6 h-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
+          {/* Dropdown User */}
+          <div className="relative">
+            <button
+              onClick={toggleUserMenu}
+              className="block py-2 px-4 md:inline-block no-underline hover:text-black ml-2 focus:outline-none"
             >
-              <circle fill="none" cx="12" cy="7" r="3" />
-              <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
-            </svg>
-          </Link>
+              <svg
+                className="fill-current text-gray-800 w-6 h-6"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <circle fill="none" cx="12" cy="7" r="3" />
+                <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
+              </svg>
+            </button>
+
+            {isUserMenuOpen && (
+              <div className="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-md w-48">
+                <Link
+                  to="/login"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>
