@@ -7,25 +7,69 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState(null); // Data untuk modal (Tambah/Edit/Lihat)
+  const [isEditing, setIsEditing] = useState(false); // Mode edit atau tambah
 
-  // URL API produk Anda
   const API_URL = 'http://localhost:5000/produk';
 
   // Fetch data dari API
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(API_URL);
-        setProducts(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setLoading(false);
-      }
-    };
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      setProducts(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchProducts();
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      fetchProducts();
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      if (isEditing) {
+        await axios.put(`${API_URL}/${modalData.id}`, modalData);
+      } else {
+        await axios.post(API_URL, modalData);
+      }
+      setShowModal(false);
+      setModalData(null);
+      fetchProducts();
+    } catch (error) {
+      console.error('Error saving product:', error);
+    }
+  };
+
+  const handleEdit = (product) => {
+    setIsEditing(true);
+    setModalData(product);
+    setShowModal(true);
+  };
+
+  const handleAdd = () => {
+    setIsEditing(false);
+    setModalData({
+      judul: '',
+      harga: '',
+      description: '',
+      gambar: '',
+      rating: '',
+    });
+    setShowModal(true);
+  };
 
   if (loading) {
     return <div className="text-center mt-20">Loading...</div>;
@@ -33,19 +77,18 @@ const Product = () => {
 
   return (
     <div className="flex">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
       <div className="flex-grow flex flex-col">
-        {/* Header */}
         <Header />
 
-        {/* Content */}
         <main className="flex-grow p-6 bg-gray-100">
           <div className="p-6 bg-gray-100 min-h-screen">
             <h1 className="text-2xl font-bold mb-6">Manage Products</h1>
-            <button className="bg-green-500 text-white px-4 py-1 rounded mr-2">
+            <button
+              onClick={handleAdd}
+              className="bg-green-500 text-white px-4 py-1 rounded mr-2"
+            >
               Tambah Produk +
             </button>
             <div className="overflow-x-auto bg-white shadow rounded-lg p-4 mt-5">
@@ -77,13 +120,19 @@ const Product = () => {
                       <td className="py-2 px-4">{product.description}</td>
                       <td className="py-2 px-4">{product.rating}</td>
                       <td className="py-2 px-4 flex space-x-2">
-                        <button className="text-blue-500 hover:text-blue-700">
+                        <button
+                          onClick={() => handleEdit(product)}
+                          className="text-blue-500 hover:text-blue-700"
+                        >
                           <FaEdit className="w-5 h-5" />
                         </button>
                         <button className="text-green-500 hover:text-green-700">
                           <FaEye className="w-5 h-5" />
                         </button>
-                        <button className="text-red-500 hover:text-red-700">
+                        <button
+                          onClick={() => handleDelete(product.id)}
+                          className="text-red-500 hover:text-red-700"
+                        >
                           <FaTrash className="w-5 h-5" />
                         </button>
                       </td>
@@ -93,6 +142,76 @@ const Product = () => {
               </table>
             </div>
           </div>
+
+          {/* Modal */}
+          {showModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white p-6 rounded-lg w-1/3">
+                <h2 className="text-xl font-bold mb-4">
+                  {isEditing ? 'Edit Produk' : 'Tambah Produk'}
+                </h2>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={modalData.judul}
+                  onChange={(e) =>
+                    setModalData({ ...modalData, judul: e.target.value })
+                  }
+                  className="border px-4 py-2 mb-4 w-full"
+                />
+                <input
+                  type="number"
+                  placeholder="Price"
+                  value={modalData.harga}
+                  onChange={(e) =>
+                    setModalData({ ...modalData, harga: e.target.value })
+                  }
+                  className="border px-4 py-2 mb-4 w-full"
+                />
+                <input
+                  type="text"
+                  placeholder="Description"
+                  value={modalData.description}
+                  onChange={(e) =>
+                    setModalData({ ...modalData, description: e.target.value })
+                  }
+                  className="border px-4 py-2 mb-4 w-full"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setModalData({ ...modalData, img: e.target.files[0] })
+                  }
+                  className="border px-4 py-2 mb-4 w-full"
+                />
+
+                <input
+                  type="number"
+                  placeholder="Rating"
+                  value={modalData.rating}
+                  onChange={(e) =>
+                    setModalData({ ...modalData, rating: e.target.value })
+                  }
+                  className="border px-4 py-2 mb-4 w-full"
+                />
+                <div className="flex justify-end space-x-2">
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSave}
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </div>
