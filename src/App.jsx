@@ -7,8 +7,8 @@ import AdminPage from './pages/AdminPage';
 import MainLayout from './layout/MainLayout';
 import AdminLayout from './layout/AdminLayout';
 import Product from './components/Admin/Product';
-// import LoginPages from './pages/LoginPages';
-// import RegisterPage from './pages/RegisterPage';
+import LoginPages from './pages/LoginPages';
+import RegisterPage from './pages/RegisterPage';
 
 const App = () => {
   return (
@@ -40,9 +40,9 @@ const App = () => {
           }
         />
 
-        {/* Rute untuk Login dan Register
+        {/* //Rute untuk Login dan Register */}
         <Route path="/login" element={<LoginPages />} />
-        <Route path="/register" element={<RegisterPage />} /> */}
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Rute dengan AdminLayout */}
         <Route
