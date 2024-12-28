@@ -40,11 +40,40 @@ const Product = () => {
 
   const handleSave = async () => {
     try {
-      if (isEditing) {
-        await axios.put(`${API_URL}/${modalData.id}`, modalData);
-      } else {
-        await axios.post(API_URL, modalData);
+      const formData = new FormData();
+
+      // Pastikan modalData berisi data yang benar
+      console.log('Modal Data being sent', modalData); // Log modalData sebelum dikirim
+
+      // Tambahkan data yang benar ke dalam FormData
+      formData.append('judul', modalData.judul);
+      formData.append('harga', modalData.harga);
+      formData.append('description', modalData.description);
+      formData.append('rating', modalData.rating);
+
+      // Cek apakah gambar ada dan valid
+      if (modalData.gambar && modalData.gambar instanceof File) {
+        formData.append('gambar', modalData.gambar);
       }
+
+      if (isEditing) {
+        // Update produk
+        console.log('Updating Product', modalData); // Log data yang sedang di-update
+        await axios.put(`${API_URL}/${modalData.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      } else {
+        // Tambah produk baru
+        await axios.post(API_URL, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }
+
+      // Setelah berhasil menyimpan, reset modal dan perbarui data
       setShowModal(false);
       setModalData(null);
       fetchProducts();
@@ -55,7 +84,11 @@ const Product = () => {
 
   const handleEdit = (product) => {
     setIsEditing(true);
-    setModalData(product);
+    setModalData({
+      ...product, // Pastikan data produk sudah terisi dengan benar
+      gambar: '', // Pastikan gambar dikosongkan untuk edit
+    });
+    console.log('Modal Data before editing', product); // Log produk yang sedang diedit
     setShowModal(true);
   };
 
@@ -65,7 +98,7 @@ const Product = () => {
       judul: '',
       harga: '',
       description: '',
-      gambar: '',
+      gambar: '', // Empty img field for adding new product
       rating: '',
     });
     setShowModal(true);
@@ -95,7 +128,7 @@ const Product = () => {
               <table className="min-w-full table-auto">
                 <thead>
                   <tr className="bg-gray-200 text-gray-700">
-                    <th className="py-2 px-4 text-left">#</th>
+                    <th className="py-2 px-4 text-left">No</th>
                     <th className="py-2 px-4 text-left">Image</th>
                     <th className="py-2 px-4 text-left">Title</th>
                     <th className="py-2 px-4 text-left">Price</th>
@@ -110,9 +143,12 @@ const Product = () => {
                       <td className="py-2 px-4">{index + 1}</td>
                       <td className="py-2 px-4">
                         <img
-                          src={product.img}
+                          src={`http://localhost:5000${product.gambar}`}
                           alt={product.judul}
                           className="w-12 h-12 object-cover rounded"
+                          onError={(e) =>
+                            (e.target.src = '/path/to/default-image.jpg')
+                          } // fallback jika gagal
                         />
                       </td>
                       <td className="py-2 px-4">{product.judul}</td>
@@ -179,9 +215,9 @@ const Product = () => {
                 />
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="gambar/*"
                   onChange={(e) =>
-                    setModalData({ ...modalData, img: e.target.files[0] })
+                    setModalData({ ...modalData, gambar: e.target.files[0] })
                   }
                   className="border px-4 py-2 mb-4 w-full"
                 />
