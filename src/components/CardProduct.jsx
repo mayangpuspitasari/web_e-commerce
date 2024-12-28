@@ -15,14 +15,14 @@ const CardProduct = ({ product }) => {
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
       <img
-        src={product.img}
-        alt={product.name}
+        src={`http://localhost:5000${product.gambar}`}
+        alt={product.judul}
         className="w-full h-56 object-cover"
       />
       <div className="p-4">
         <Link to={`/products/${product.id}`}>
           <h3 className="text-lg font-semibold text-blue-600 hover:underline mb-2">
-            {product.name}
+            {product.judul}
           </h3>
         </Link>
         <p className="text-gray-500 mb-2">
@@ -58,8 +58,8 @@ const CardProduct = ({ product }) => {
 
 CardProduct.propTypes = {
   product: PropTypes.shape({
-    img: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    gambar: PropTypes.string.isRequired,
+    judul: PropTypes.string.isRequired,
     harga: PropTypes.number.isRequired,
     rating: PropTypes.number, // Rating opsional
     id: PropTypes.number.isRequired,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -162,9 +162,7 @@ const Product = () => {
                         >
                           <FaEdit className="w-5 h-5" />
                         </button>
-                        <button className="text-green-500 hover:text-green-700">
-                          <FaEye className="w-5 h-5" />
-                        </button>
+
                         <button
                           onClick={() => handleDelete(product.id)}
                           className="text-red-500 hover:text-red-700"
