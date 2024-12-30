@@ -9,6 +9,7 @@ import AdminLayout from './layout/AdminLayout';
 import Product from './components/Admin/Product';
 import LoginPages from './pages/LoginPages';
 import RegisterPage from './pages/RegisterPage';
+import AdminProtectedRoute from './components/AdminProtectedRoute';
 
 const App = () => {
   return (
@@ -48,9 +49,11 @@ const App = () => {
         <Route
           path="/admin"
           element={
-            <AdminLayout>
-              <AdminPage />
-            </AdminLayout>
+            <AdminProtectedRoute>
+              <AdminLayout>
+                <AdminPage />
+              </AdminLayout>
+            </AdminProtectedRoute>
           }
         />
         <Route

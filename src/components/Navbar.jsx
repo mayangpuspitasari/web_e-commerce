@@ -1,16 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Untuk menu hamburger
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // Untuk dropdown user
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [userName, setUserName] = useState(''); // Track user name
+
+  useEffect(() => {
+    // Periksa apakah token ada di localStorage untuk status login
+    const token = localStorage.getItem('token');
+    const name = localStorage.getItem('name'); // Menyimpan nama pengguna di localStorage
+    if (token) {
+      setIsLoggedIn(true);
+      setUserName(name); // Set nama pengguna jika sudah login
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleMenuClick = () => {
+    setIsUserMenuOpen(false);
+  };
+
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
+  const handleLogout = () => {
+    // Hapus token dan data login lainnya dari localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('name'); // Hapus nama pengguna dari localStorage
+    setIsLoggedIn(false);
+    setUserName('');
   };
 
   return (
@@ -22,6 +48,7 @@ const Navbar = () => {
             to="/"
             className="flex items-center text-gray-800 text-xl font-bold no-underline"
           >
+            {/* Tetap menggunakan SVG brownies */}
             <svg
               className="fill-current text-brown-700 w-6 h-6 mr-2"
               xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +69,7 @@ const Navbar = () => {
               <circle cx="14" cy="8" r="1" fill="#fff" />
               <circle cx="12" cy="10" r="1" fill="#fff" />
             </svg>
-            Brownies
+            <span className="ml-2">Brownies</span>
           </Link>
         </div>
 
@@ -146,18 +173,31 @@ const Navbar = () => {
 
             {isUserMenuOpen && (
               <div className="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-md w-48">
-                <Link
-                  to="/login"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                >
-                  Register
-                </Link>
+                {isLoggedIn ? (
+                  <button
+                    onClick={handleLogout}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={handleMenuClick}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={handleMenuClick}
+                    >
+                      Register
+                    </Link>
+                  </>
+                )}
               </div>
             )}
           </div>

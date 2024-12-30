@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate dan Link
 import axios from 'axios';
 import LoginInput from '../components/LoginInput';
 
 const LoginPages = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // Hook untuk navigasi
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,11 +16,26 @@ const LoginPages = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:5000/login',
+        'http://localhost:5000/user/login',
         formData,
       );
+
+      const { token, role } = response.data;
+
+      // Simpan token dan role di localStorage
+      localStorage.setItem('userToken', token);
+      localStorage.setItem('userRole', role);
+
+      // Redirect berdasarkan role
+      if (role === 'admin') {
+        navigate('/admin'); // Arahkan ke halaman admin
+      } else if (role === 'user') {
+        navigate('/'); // Arahkan ke halaman utama (HomePage)
+      } else {
+        setMessage('Role tidak dikenali');
+      }
+
       setMessage('Login berhasil');
-      console.log(response.data);
     } catch (error) {
       setMessage(error.response?.data || 'Terjadi kesalahan');
     }
@@ -40,6 +57,15 @@ const LoginPages = () => {
           </button>
         </form>
         <p className="mt-4 text-center text-gray-500">{message}</p>
+        <p className="mt-6 text-center text-gray-600">
+          Belum punya akun?{' '}
+          <Link
+            to="/register"
+            className="text-blue-500 hover:underline hover:text-blue-600"
+          >
+            Daftar di sini
+          </Link>
+        </p>
       </div>
     </div>
   );

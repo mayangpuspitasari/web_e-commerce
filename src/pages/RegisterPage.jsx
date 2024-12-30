@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link dari react-router-dom
 import axios from 'axios';
 import RegisterInput from '../components/RegisterInput';
 
@@ -26,7 +27,7 @@ const RegisterPage = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/register',
+        'http://localhost:5000/user/register',
         formData,
       );
       setMessage('Registrasi berhasil');
@@ -52,6 +53,15 @@ const RegisterPage = () => {
           </button>
         </form>
         <p className="mt-4 text-center text-gray-500">{message}</p>
+        <p className="mt-6 text-center text-gray-600">
+          Sudah punya akun?{' '}
+          <Link
+            to="/login"
+            className="text-blue-500 hover:underline hover:text-blue-600"
+          >
+            Login di sini
+          </Link>
+        </p>
       </div>
     </div>
   );
