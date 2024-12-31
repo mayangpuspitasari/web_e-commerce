@@ -7,53 +7,46 @@ import AdminPage from './pages/AdminPage';
 import MainLayout from './layout/MainLayout';
 import AdminLayout from './layout/AdminLayout';
 import Product from './components/Admin/Product';
-import Users from './components/Admin/Users';
+import Users from './components/Admin/Users'
 import LoginPages from './pages/LoginPages';
 import RegisterPage from './pages/RegisterPage';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
-import UserProtectedRoute from './components/UserProtectedRoute'; // Import UserProtectedRoute
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        {/* Rute dengan MainLayout (untuk pengguna) */}
+        {/* Rute dengan MainLayout */}
         <Route
           path="/"
           element={
-            <UserProtectedRoute>
-              <MainLayout>
-                <HomePage />
-              </MainLayout>
-            </UserProtectedRoute>
+            <MainLayout>
+              <HomePage />
+            </MainLayout>
           }
         />
         <Route
           path="/products"
           element={
-            <UserProtectedRoute>
-              <MainLayout>
-                <ProductsPage />
-              </MainLayout>
-            </UserProtectedRoute>
+            <MainLayout>
+              <ProductsPage />
+            </MainLayout>
           }
         />
         <Route
           path="/products/:id"
           element={
-            <UserProtectedRoute>
-              <MainLayout>
-                <DetailPage />
-              </MainLayout>
-            </UserProtectedRoute>
+            <MainLayout>
+              <DetailPage />
+            </MainLayout>
           }
         />
 
-        {/* Rute untuk Login dan Register */}
+        {/* //Rute untuk Login dan Register */}
         <Route path="/login" element={<LoginPages />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* Rute dengan AdminLayout (untuk admin) */}
+        {/* Rute dengan AdminLayout */}
         <Route
           path="/admin"
           element={
@@ -67,21 +60,17 @@ const App = () => {
         <Route
           path="/admin/product"
           element={
-            <AdminProtectedRoute>
-              <AdminLayout>
-                <Product />
-              </AdminLayout>
-            </AdminProtectedRoute>
+            <AdminLayout>
+              <Product />
+            </AdminLayout>
           }
         />
-        <Route
+         <Route
           path="/admin/users"
           element={
-            <AdminProtectedRoute>
-              <AdminLayout>
-                <Users />
-              </AdminLayout>
-            </AdminProtectedRoute>
+            <AdminLayout>
+              <Users />
+            </AdminLayout>
           }
         />
       </Routes>
@@ -90,3 +79,4 @@ const App = () => {
 };
 
 export default App;
+
