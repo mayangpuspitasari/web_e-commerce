@@ -5,7 +5,7 @@ import Dashboard from '../components/Admin/Dashboard';
 
 const AdminPage = () => {
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       {/* Sidebar */}
       <Sidebar />
 
@@ -16,11 +16,11 @@ const AdminPage = () => {
 
         {/* Content */}
         <main className="flex-grow p-6 bg-gray-100">
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">
+          <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
               Welcome to the Admin Dashboard
             </h2>
-            <p className="text-gray-700">
+            <p className="text-gray-600">
               Manage your application using the sidebar navigation. Choose a
               section to view more details.
             </p>
@@ -33,4 +33,3 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-

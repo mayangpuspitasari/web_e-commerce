@@ -14,14 +14,17 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-blue-600 text-white py-4">
-      <div className="w-full lg:w-[calc(100%-16rem)] ml-auto max-w-7xl px-6 flex items-center justify-between">
+    <header className="bg-blue-600 text-white">
+      <div className="container mx-auto px-6 flex items-center justify-between py-4">
+        {/* Judul Dashboard */}
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+
+        {/* Informasi Admin dan Tombol Logout */}
         <div className="flex items-center space-x-4">
-          <span>Welcome, Admin</span>
+          <span className="hidden sm:inline">Welcome, Admin</span>
           <button
             onClick={handleLogout}
-            className="bg-blue-800 px-3 py-1 rounded hover:bg-blue-700"
+            className="bg-blue-800 px-4 py-2 rounded hover:bg-blue-700"
           >
             Logout
           </button>
@@ -32,4 +35,3 @@ const Header = () => {
 };
 
 export default Header;
-

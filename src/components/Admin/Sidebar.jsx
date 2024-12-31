@@ -33,6 +33,14 @@ const Sidebar = () => {
           </li>
           <li>
             <Link
+              to="/admin/transaksi"
+              className="block py-2 px-4 rounded hover:bg-gray-700"
+            >
+              Transaksi
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/admin/settings"
               className="block py-2 px-4 rounded hover:bg-gray-700"
             >

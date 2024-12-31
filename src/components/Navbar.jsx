@@ -172,34 +172,40 @@ const Navbar = () => {
             </button>
 
             {isUserMenuOpen && (
-              <div className="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-md w-48">
-                {isLoggedIn ? (
-                  <button
-                    onClick={handleLogout}
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
-                ) : (
-                  <>
-                    <Link
-                      to="/login"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      onClick={handleMenuClick}
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      to="/register"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      onClick={handleMenuClick}
-                    >
-                      Register
-                    </Link>
-                  </>
-                )}
-              </div>
-            )}
+  <div className="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-md w-48">
+    {isLoggedIn ? (
+      <>
+        <p className="block px-4 py-2 text-gray-700">
+          Hi, <span className="font-bold">{userName}</span>
+        </p>
+        <button
+          onClick={handleLogout}
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+        >
+          Logout
+        </button>
+      </>
+    ) : (
+      <>
+        <Link
+          to="/login"
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+          onClick={handleMenuClick}
+        >
+          Login
+        </Link>
+        <Link
+          to="/register"
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+          onClick={handleMenuClick}
+        >
+          Register
+        </Link>
+      </>
+    )}
+  </div>
+)}
+
           </div>
         </div>
       </div>
