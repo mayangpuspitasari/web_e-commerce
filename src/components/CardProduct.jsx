@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { faShoppingCart, faStar } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
 
 const CardProduct = ({ product }) => {
-  // Tetapkan default rating jika tidak ada
-  const rating = product.rating || 0;
+  const navigate = useNavigate();
 
-  // Log untuk memeriksa tipe data harga
-  console.log('Harga:', product.harga, 'Tipe:', typeof product.harga);
+  const handleBuyNow = () => {
+    navigate('/order', { state: { product } }); // Navigasi ke OrderPage dengan state
+  };
+
+  const rating = product.rating || 0;
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -29,7 +30,6 @@ const CardProduct = ({ product }) => {
           Rp {product.harga.toLocaleString('id-ID')}
         </p>
 
-        {/* Rating Bintang */}
         <div className="flex items-center mb-4">
           {[...Array(5)].map((_, index) => (
             <FontAwesomeIcon
@@ -43,7 +43,10 @@ const CardProduct = ({ product }) => {
         </div>
 
         <div className="flex justify-start gap-5 mt-4">
-          <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
+          <button
+            onClick={handleBuyNow}
+            className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700"
+          >
             Beli Sekarang
           </button>
           <button className="px-4 py-2 bg-gray-300 text-gray-800 text-sm font-medium rounded hover:bg-gray-400 flex items-center">
@@ -61,10 +64,9 @@ CardProduct.propTypes = {
     gambar: PropTypes.string.isRequired,
     judul: PropTypes.string.isRequired,
     harga: PropTypes.number.isRequired,
-    rating: PropTypes.number, // Rating opsional
+    rating: PropTypes.number,
     id: PropTypes.number.isRequired,
   }).isRequired,
 };
 
 export default CardProduct;
-

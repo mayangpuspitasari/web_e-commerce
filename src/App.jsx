@@ -10,6 +10,7 @@ import Product from './components/Admin/Product';
 import Users from './components/Admin/Users'
 import LoginPages from './pages/LoginPages';
 import RegisterPage from './pages/RegisterPage';
+import OrderPage from './pages/OrderPage';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 
 const App = () => {
@@ -38,6 +39,15 @@ const App = () => {
           element={
             <MainLayout>
               <DetailPage />
+            </MainLayout>
+          }
+        />
+
+<Route
+          path="/order"
+          element={
+            <MainLayout>
+              <OrderPage />
             </MainLayout>
           }
         />

@@ -42,7 +42,7 @@ const Kontak = () => {
                 <span className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded-full mr-4">
                   <i className="fas fa-envelope"></i>
                 </span>
-                <span>info@example.com</span>
+                <span>brownies@gmail.com</span>
               </li>
               <li className="flex items-center">
                 <span className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded-full mr-4">
