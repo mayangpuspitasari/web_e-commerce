@@ -2,13 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons'; // Import bintang
-import { Link } from 'react-router-dom'; // Import Link
+import { Link, useNavigate } from 'react-router-dom';
 
 const ProductPopuler = () => {
   const [popularProducts, setPopularProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
+  const handleBuyNow = () => {
+    navigate('/order', { state: { product } }); // Navigasi ke OrderPage dengan state
+  }
+
+  
+ 
   useEffect(() => {
     const fetchPopularProducts = async () => {
       try {
@@ -72,7 +79,9 @@ const ProductPopuler = () => {
                   ))}
                 </div>
                 <div className="flex justify-start gap-5 mt-4">
-                  <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
+                  <button 
+                 onClick={handleBuyNow}
+                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
                     Beli Sekarang
                   </button>
                   <button className="px-4 py-2 bg-gray-300 text-gray-800 text-sm font-medium rounded hover:bg-gray-400 flex items-center">

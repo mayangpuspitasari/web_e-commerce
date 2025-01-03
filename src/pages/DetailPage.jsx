@@ -2,12 +2,19 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DetailPage = () => {
   const { id } = useParams(); // Ambil ID dari URL
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleBuyNow = () => {
+    navigate('/order', { state: { product } }); // Navigasi ke OrderPage dengan state
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -57,7 +64,9 @@ const DetailPage = () => {
             </span>
           </p>
           <div className="flex justify-center gap-4">
-            <button className="px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 shadow-md transform hover:scale-105 transition duration-300">
+            <button 
+             onClick={handleBuyNow}
+            className="px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 shadow-md transform hover:scale-105 transition duration-300">
               Beli Sekarang
             </button>
             <button className="px-6 py-3 bg-gray-300 text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-400 shadow-md flex items-center gap-2 transform hover:scale-105 transition duration-300">
