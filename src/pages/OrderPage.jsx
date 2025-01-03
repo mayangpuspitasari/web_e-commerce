@@ -31,54 +31,59 @@ const OrderPage = () => {
   // Fungsi untuk mengirimkan pesanan
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     // Validasi input
     if (!namaPemesan || !alamat || !metodePembayaran) {
       alert('Semua kolom harus diisi!');
       return;
     }
-
+  
     // Jika metode pembayaran adalah Transfer atau e-Wallet, pastikan bukti pembayaran di-upload
     if ((metodePembayaran === 'Transfer Bank' || metodePembayaran === 'e-Wallet') && !buktiPembayaran) {
       alert('Harap unggah bukti pembayaran!');
       return;
     }
-
+  
     // Menyiapkan data pesanan
     const orderData = {
       user_id: 1, // Ganti dengan user_id yang sesuai
-      produk_id: product.id,
+      produk_id: product.id, // Mengirimkan produk yang dipilih
       jumlah,
       nama_pemesan: namaPemesan,
       alamat,
-      metode_pembayaran,
+      metode_pembayaran: metodePembayaran,
       total,
     };
-
+  
     // Menyiapkan data form-data untuk mengirim file bukti pembayaran (jika ada)
     const formData = new FormData();
-    formData.append('orderData', JSON.stringify(orderData)); // Menambahkan data pesanan
-    if (buktiPembayaran) {
-      formData.append('bukti_pembayaran', buktiPembayaran); // Menambahkan file bukti pembayaran
-    }
+formData.append('orderData', JSON.stringify(orderData)); // Menambahkan data pesanan
+if (buktiPembayaran) {
+  formData.append('bukti_pembayaran', buktiPembayaran); // Menambahkan file bukti pembayaran
+}
 
+  
     try {
-      const response = await fetch('http://localhost:5000/order', {
+      const response = await fetch('http://localhost:5000/orders', {
         method: 'POST',
         body: formData,
       });
-
-      if (!response.ok) {
-        throw new Error('Gagal membuat pesanan');
-      }
-
+    
       const data = await response.json();
+      console.log('Response dari server:', data);
+    
+      if (!response.ok) {
+        throw new Error(data.message || 'Gagal membuat pesanan');
+      }
+    
       alert('Pesanan berhasil dibuat!');
-      // Redirect atau lakukan sesuatu setelah sukses
     } catch (error) {
+      console.error('Error:', error);
       alert(error.message);
     }
+    
   };
+  
 
   return (
     <div className="max-w-3xl mx-auto p-6 pt-28">
