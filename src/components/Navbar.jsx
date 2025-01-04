@@ -2,41 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
-  const [userName, setUserName] = useState(''); // Track user name
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userName, setUserName] = useState('');
+  
+    useEffect(() => {
+      const token = localStorage.getItem('userToken');
+      const name = localStorage.getItem('userName'); // Ambil nama dari localStorage
+      if (token) {
+        setIsLoggedIn(true);
+        setUserName(name || 'User'); // Berikan nilai default jika nama kosong
+      } else {
+        setIsLoggedIn(false);
+        setUserName('');
+      }
+    }, []);
 
-  useEffect(() => {
-    // Periksa apakah token ada di localStorage untuk status login
-    const token = localStorage.getItem('token');
-    const name = localStorage.getItem('name'); // Menyimpan nama pengguna di localStorage
-    if (token) {
-      setIsLoggedIn(true);
-      setUserName(name); // Set nama pengguna jika sudah login
-    } else {
+
+    const toggleMenu = () => {
+      setIsMenuOpen(!isMenuOpen);
+    };
+  
+    const toggleUserMenu = () => {
+      setIsUserMenuOpen(!isUserMenuOpen);
+    };
+  
+    const handleLogout = () => {
+      // Hapus data login dari localStorage
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userName');
       setIsLoggedIn(false);
-    }
-  }, []);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+      setUserName('');
+    };
 
   const handleMenuClick = () => {
+    setIsMenuOpen(false);
     setIsUserMenuOpen(false);
-  };
-
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen);
-  };
-
-  const handleLogout = () => {
-    // Hapus token dan data login lainnya dari localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('name'); // Hapus nama pengguna dari localStorage
-    setIsLoggedIn(false);
-    setUserName('');
   };
 
   return (
@@ -48,7 +50,6 @@ const Navbar = () => {
             to="/"
             className="flex items-center text-gray-800 text-xl font-bold no-underline"
           >
-            {/* Tetap menggunakan SVG brownies */}
             <svg
               className="fill-current text-brown-700 w-6 h-6 mr-2"
               xmlns="http://www.w3.org/2000/svg"
@@ -107,6 +108,7 @@ const Navbar = () => {
               <Link
                 to="/"
                 className="block py-2 px-4 md:inline-block no-underline hover:text-black hover:bg-gray-100"
+                onClick={handleMenuClick}
               >
                 Home
               </Link>
@@ -115,6 +117,7 @@ const Navbar = () => {
               <Link
                 to="/products"
                 className="block py-2 px-4 md:inline-block no-underline hover:text-black hover:bg-gray-100"
+                onClick={handleMenuClick}
               >
                 Product
               </Link>
@@ -123,6 +126,7 @@ const Navbar = () => {
               <Link
                 to="/about"
                 className="block py-2 px-4 md:inline-block no-underline hover:text-black hover:bg-gray-100"
+                onClick={handleMenuClick}
               >
                 Tentang Kami
               </Link>
@@ -131,6 +135,7 @@ const Navbar = () => {
               <Link
                 to="/kontak"
                 className="block py-2 px-4 md:inline-block no-underline hover:text-black hover:bg-gray-100"
+                onClick={handleMenuClick}
               >
                 Kontak
               </Link>
@@ -156,13 +161,15 @@ const Navbar = () => {
           </Link>
 
           {/* Dropdown User */}
+          <div className="flex items-center md:order-3">
+          {/* Dropdown User */}
           <div className="relative">
             <button
               onClick={toggleUserMenu}
-              className="block py-2 px-4 md:inline-block no-underline hover:text-black ml-2 focus:outline-none"
+              className="block py-2 px-4 focus:outline-none"
             >
               <svg
-                className="fill-current text-gray-800 w-6 h-6"
+                className="w-6 h-6"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -172,41 +179,39 @@ const Navbar = () => {
             </button>
 
             {isUserMenuOpen && (
-  <div className="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-md w-48">
-    {isLoggedIn ? (
-      <>
-        <p className="block px-4 py-2 text-gray-700">
-          Hi, <span className="font-bold">{userName}</span>
-        </p>
-        <button
-          onClick={handleLogout}
-          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-        >
-          Logout
-        </button>
-      </>
-    ) : (
-      <>
-        <Link
-          to="/login"
-          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-          onClick={handleMenuClick}
-        >
-          Login
-        </Link>
-        <Link
-          to="/register"
-          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-          onClick={handleMenuClick}
-        >
-          Register
-        </Link>
-      </>
-    )}
-  </div>
-)}
-
+              <div className="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-md w-48">
+                {isLoggedIn ? (
+                  <>
+                    <p className="block px-4 py-2 text-gray-700">
+                      Hi, <span className="font-bold">{userName || 'User'}</span>
+                    </p>
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      Register
+                    </Link>
+                  </>
+                )}
+              </div>
+            )}
           </div>
+        </div>
         </div>
       </div>
     </nav>
@@ -214,4 +219,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

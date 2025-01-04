@@ -1,30 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const LoginInput = ({ formData, handleChange }) => {
-  return (
-    <div className="space-y-4">
+const LoginInput = ({ formData, handleChange }) => (
+  <>
+    <div>
+      <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+        Username
+      </label>
       <input
         type="text"
+        id="username"
         name="username"
-        placeholder="Username"
         value={formData.username}
         onChange={handleChange}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-        required
+        className="w-full mt-1 px-4 py-2 border rounded-md"
       />
     </div>
-  );
-};
+    <div>
+      <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+        Password
+      </label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        className="w-full mt-1 px-4 py-2 border rounded-md"
+      />
+    </div>
+  </>
+);
+
 
 LoginInput.propTypes = {
   formData: PropTypes.shape({

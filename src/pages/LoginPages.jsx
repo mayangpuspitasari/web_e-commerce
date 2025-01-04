@@ -20,11 +20,12 @@ const LoginPages = () => {
         formData,
       );
 
-      const { token, role } = response.data;
+      const { token, role, username } = response.data;
 
       // Simpan token dan role di localStorage
       localStorage.setItem('userToken', token);
       localStorage.setItem('userRole', role);
+      localStorage.setItem('userName', username);
 
       // Redirect berdasarkan role
       if (role === 'admin') {

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const OrderPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { product } = location.state || {}; // Mengambil data produk yang diteruskan dari DetailPage
 
   if (!product) {
-    return <p>Produk tidak ditemukan!</p>;
+    navigate('/'); // Arahkan ke halaman utama jika produk tidak ditemukan
+    return null;
   }
 
   const [jumlah, setJumlah] = useState(1);
@@ -14,76 +16,89 @@ const OrderPage = () => {
   const [alamat, setAlamat] = useState('');
   const [metodePembayaran, setMetodePembayaran] = useState('COD');
   const [total, setTotal] = useState(product.harga); // Total harga berdasarkan jumlah
-  const [buktiPembayaran, setBuktiPembayaran] = useState(null); // State untuk menyimpan file bukti pembayaran
+  const [buktiPembayaran, setBuktiPembayaran] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fungsi untuk menghitung total harga
   const handleJumlahChange = (event) => {
-    const jumlahBaru = event.target.value;
-    setJumlah(jumlahBaru);
-    setTotal(jumlahBaru * product.harga); // Menghitung total berdasarkan jumlah
+    const jumlahBaru = Number(event.target.value);
+    if (jumlahBaru > 0 && Number.isInteger(jumlahBaru)) {
+      setJumlah(jumlahBaru);
+      setTotal(jumlahBaru * product.harga);
+    } else {
+      alert('Jumlah harus berupa angka bulat dan lebih dari 0!');
+    }
   };
 
   // Fungsi untuk mengubah bukti pembayaran
   const handleBuktiPembayaranChange = (event) => {
-    setBuktiPembayaran(event.target.files[0]); // Menyimpan file yang di-upload
+    setBuktiPembayaran(event.target.files[0]);
   };
 
   // Fungsi untuk mengirimkan pesanan
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     // Validasi input
-    if (!namaPemesan || !alamat || !metodePembayaran) {
-      alert('Semua kolom harus diisi!');
+    if (!namaPemesan || namaPemesan.length < 3) {
+      alert('Nama pemesan harus lebih dari 3 karakter!');
       return;
     }
-  
-    // Jika metode pembayaran adalah Transfer atau e-Wallet, pastikan bukti pembayaran di-upload
+    if (!alamat || alamat.length < 10) {
+      alert('Alamat harus lebih dari 10 karakter!');
+      return;
+    }
     if ((metodePembayaran === 'Transfer Bank' || metodePembayaran === 'e-Wallet') && !buktiPembayaran) {
       alert('Harap unggah bukti pembayaran!');
       return;
     }
-  
+
+    const userId = localStorage.getItem('user_id');
+    if (!userId) {
+      alert('Harap login terlebih dahulu untuk membuat pesanan!');
+      return;
+    }
+
     // Menyiapkan data pesanan
     const orderData = {
-      user_id: 1, // Ganti dengan user_id yang sesuai
-      produk_id: product.id, // Mengirimkan produk yang dipilih
+      user_id: userId,
+      produk_id: product.id,
       jumlah,
       nama_pemesan: namaPemesan,
       alamat,
       metode_pembayaran: metodePembayaran,
       total,
     };
-  
-    // Menyiapkan data form-data untuk mengirim file bukti pembayaran (jika ada)
-    const formData = new FormData();
-formData.append('orderData', JSON.stringify(orderData)); // Menambahkan data pesanan
-if (buktiPembayaran) {
-  formData.append('bukti_pembayaran', buktiPembayaran); // Menambahkan file bukti pembayaran
-}
 
-  
+    // Menyiapkan data form-data
+    const formData = new FormData();
+    formData.append('orderData', JSON.stringify(orderData));
+    if (buktiPembayaran) {
+      formData.append('bukti_pembayaran', buktiPembayaran);
+    }
+
     try {
+      setIsLoading(true);
       const response = await fetch('http://localhost:5000/orders', {
         method: 'POST',
         body: formData,
       });
-    
+
       const data = await response.json();
-      console.log('Response dari server:', data);
-    
+
       if (!response.ok) {
         throw new Error(data.message || 'Gagal membuat pesanan');
       }
-    
+
       alert('Pesanan berhasil dibuat!');
+      navigate('/order-history'); // Ganti dengan halaman riwayat pesanan
     } catch (error) {
       console.error('Error:', error);
       alert(error.message);
+    } finally {
+      setIsLoading(false);
     }
-    
   };
-  
 
   return (
     <div className="max-w-3xl mx-auto p-6 pt-28">
@@ -142,8 +157,9 @@ if (buktiPembayaran) {
               <textarea
                 value={alamat}
                 onChange={(e) => setAlamat(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md resize-none"
                 placeholder="Masukkan alamat pengiriman"
+                rows="4"
               />
             </div>
 
@@ -179,9 +195,12 @@ if (buktiPembayaran) {
             <div className="text-center mt-4">
               <button
                 type="submit"
-                className="px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"
+                className={`px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 ${
+                  isLoading && 'opacity-50 cursor-not-allowed'
+                }`}
+                disabled={isLoading}
               >
-                Konfirmasi Pesanan
+                {isLoading ? 'Mengirim...' : 'Konfirmasi Pesanan'}
               </button>
             </div>
           </form>
