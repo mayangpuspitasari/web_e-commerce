@@ -38,30 +38,15 @@ const OrderPage = () => {
   // Fungsi untuk mengirimkan pesanan
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Validasi input
-    if (!namaPemesan || namaPemesan.length < 3) {
-      alert('Nama pemesan harus lebih dari 3 karakter!');
-      return;
-    }
-    if (!alamat || alamat.length < 10) {
-      alert('Alamat harus lebih dari 10 karakter!');
-      return;
-    }
-    if ((metodePembayaran === 'Transfer Bank' || metodePembayaran === 'e-Wallet') && !buktiPembayaran) {
-      alert('Harap unggah bukti pembayaran!');
-      return;
-    }
-
-    const userId = localStorage.getItem('user_id');
-    if (!userId) {
+  
+    const token = localStorage.getItem('token');
+    if (!token) {
       alert('Harap login terlebih dahulu untuk membuat pesanan!');
       return;
     }
-
-    // Menyiapkan data pesanan
+  
     const orderData = {
-      user_id: userId,
+      user_id: localStorage.getItem('user_id'), // Pastikan ID pengguna juga disimpan dengan benar
       produk_id: product.id,
       jumlah,
       nama_pemesan: namaPemesan,
@@ -69,36 +54,29 @@ const OrderPage = () => {
       metode_pembayaran: metodePembayaran,
       total,
     };
-
-    // Menyiapkan data form-data
-    const formData = new FormData();
-    formData.append('orderData', JSON.stringify(orderData));
-    if (buktiPembayaran) {
-      formData.append('bukti_pembayaran', buktiPembayaran);
-    }
-
+  
     try {
-      setIsLoading(true);
       const response = await fetch('http://localhost:5000/orders', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
       });
-
+  
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Gagal membuat pesanan');
+      if (response.ok) {
+        alert('Pesanan berhasil dibuat!');
+      } else {
+        alert(data.message || 'Terjadi kesalahan!');
       }
-
-      alert('Pesanan berhasil dibuat!');
-      navigate('/order-history'); // Ganti dengan halaman riwayat pesanan
     } catch (error) {
       console.error('Error:', error);
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
+      alert('Gagal membuat pesanan');
     }
   };
+  
 
   return (
     <div className="max-w-3xl mx-auto p-6 pt-28">
