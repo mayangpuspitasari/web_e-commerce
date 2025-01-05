@@ -7,11 +7,12 @@ import AdminPage from './pages/AdminPage';
 import MainLayout from './layout/MainLayout';
 import AdminLayout from './layout/AdminLayout';
 import Product from './components/Admin/Product';
-import Users from './components/Admin/Users'
+import Users from './components/Admin/Users';
 import LoginPages from './pages/LoginPages';
 import RegisterPage from './pages/RegisterPage';
 import OrderPage from './pages/OrderPage';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
+import Transaksi from './components/Admin/Transaksi';
 
 const App = () => {
   return (
@@ -43,7 +44,7 @@ const App = () => {
           }
         />
 
-<Route
+        <Route
           path="/order"
           element={
             <MainLayout>
@@ -75,11 +76,19 @@ const App = () => {
             </AdminLayout>
           }
         />
-         <Route
+        <Route
           path="/admin/users"
           element={
             <AdminLayout>
               <Users />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/transaksi"
+          element={
+            <AdminLayout>
+              <Transaksi />
             </AdminLayout>
           }
         />

@@ -38,45 +38,55 @@ const OrderPage = () => {
   // Fungsi untuk mengirimkan pesanan
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    const token = localStorage.getItem('token');
+
+    const token = localStorage.getItem('userToken');
+
     if (!token) {
       alert('Harap login terlebih dahulu untuk membuat pesanan!');
       return;
     }
-  
-    const orderData = {
-      user_id: localStorage.getItem('user_id'), // Pastikan ID pengguna juga disimpan dengan benar
-      produk_id: product.id,
-      jumlah,
-      nama_pemesan: namaPemesan,
-      alamat,
-      metode_pembayaran: metodePembayaran,
-      total,
-    };
-  
+
+    // Gunakan FormData untuk mengirim data
+    const formData = new FormData();
+    formData.append('produk_id', product.id);
+    formData.append('jumlah', jumlah);
+    formData.append('nama_pemesan', namaPemesan);
+    formData.append('alamat', alamat);
+    formData.append('metode_pembayaran', metodePembayaran);
+    formData.append('total', total);
+    if (buktiPembayaran) {
+      formData.append('bukti_pembayaran', buktiPembayaran);
+    }
+
     try {
+      setIsLoading(true);
+
       const response = await fetch('http://localhost:5000/orders', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          // Jangan tambahkan Content-Type secara manual saat menggunakan FormData
         },
-        body: JSON.stringify(orderData),
+        body: formData,
       });
-  
-      const data = await response.json();
+
       if (response.ok) {
+        const data = await response.json();
+        console.log('Backend Response:', data);
         alert('Pesanan berhasil dibuat!');
+        navigate('/'); // Arahkan ke halaman utama setelah berhasil
       } else {
-        alert(data.message || 'Terjadi kesalahan!');
+        const errorText = await response.text();
+        console.error('Response Error:', errorText);
+        alert(errorText || 'Terjadi kesalahan!');
       }
     } catch (error) {
       console.error('Error:', error);
       alert('Gagal membuat pesanan');
+    } finally {
+      setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="max-w-3xl mx-auto p-6 pt-28">
@@ -157,7 +167,8 @@ const OrderPage = () => {
             </div>
 
             {/* Input untuk Bukti Pembayaran */}
-            {(metodePembayaran === 'Transfer Bank' || metodePembayaran === 'e-Wallet') && (
+            {(metodePembayaran === 'Transfer Bank' ||
+              metodePembayaran === 'e-Wallet') && (
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-medium mb-2">
                   Bukti Pembayaran
@@ -199,3 +210,4 @@ const OrderPage = () => {
 };
 
 export default OrderPage;
+
