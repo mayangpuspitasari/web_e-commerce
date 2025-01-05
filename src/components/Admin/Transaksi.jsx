@@ -29,28 +29,47 @@ const TransactionPage = () => {
     fetchTransactions();
   }, []);
 
-  const handleDelete = async (id_order) => {
+  const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}/${id_order}`);
+      await axios.delete(`${API_URL}/${id}`);
       fetchTransactions();
     } catch (error) {
       console.error('Error deleting transaction:', error);
     }
   };
 
+  const handleEdit = (transaction) => {
+    setIsEditing(true);
+    setModalData(transaction); // Pastikan data yang lengkap diisi ke modal
+    setShowModal(true);
+  };
+
   const handleSave = async () => {
-    if (!modalData.status) {
-      alert('Status transaksi harus diisi!');
+    if (
+      !modalData.produk_nama ||
+      !modalData.jumlah ||
+      !modalData.nama_pemesan
+    ) {
+      alert('Semua field wajib diisi!');
       return;
     }
+
+    const formData = new FormData();
+    Object.keys(modalData).forEach((key) => {
+      formData.append(key, modalData[key]);
+    });
 
     try {
       if (isEditing) {
         // Update transaksi
-        await axios.put(`${API_URL}/${modalData.id_order}`, modalData);
+        await axios.put(`${API_URL}/${modalData.id_order}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
       } else {
         // Tambah transaksi baru
-        await axios.post(`${API_URL}/add`, modalData);
+        await axios.post(`${API_URL}/add`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
       }
 
       setShowModal(false);
@@ -60,25 +79,6 @@ const TransactionPage = () => {
       console.error('Error saving transaction:', error);
     }
   };
-
-  const handleEdit = (transaction) => {
-    setIsEditing(true);
-    setModalData(transaction);
-    setShowModal(true);
-  };
-
-  const handleAdd = () => {
-    setIsEditing(false);
-    setModalData({
-      produk_nama: '',
-      jumlah: 0,
-      nama_pemesan: '',
-      alamat: '',
-      status: '',
-    });
-    setShowModal(true);
-  };
-
   if (loading) {
     return <div className="text-center mt-20">Loading...</div>;
   }
@@ -91,12 +91,7 @@ const TransactionPage = () => {
         <main className="flex-grow p-6 bg-gray-100">
           <div className="p-6 bg-gray-100 min-h-screen">
             <h1 className="text-2xl font-bold mb-6">Manage Transactions</h1>
-            <button
-              onClick={handleAdd}
-              className="bg-green-500 text-white px-4 py-1 rounded mr-2"
-            >
-              Tambah Transaksi +
-            </button>
+
             <div className="overflow-x-auto bg-white shadow rounded-lg p-4 mt-5">
               <table className="min-w-full table-auto">
                 <thead>
@@ -106,19 +101,43 @@ const TransactionPage = () => {
                     <th className="py-2 px-4 text-left">Jumlah</th>
                     <th className="py-2 px-4 text-left">Nama Pemesan</th>
                     <th className="py-2 px-4 text-left">Alamat</th>
-                    <th className="px-4 py-2 text-left">Status</th>
+                    <th className="py-2 px-4 text-left">Metode Pembayaran</th>
+                    <th className="py-2 px-4 text-left">Total</th>
+                    <th className="py-2 px-4 text-left">Bukti Pembayaran</th>
+                    <th className="px-4 py-2 text-left">Created At </th>
                     <th className="py-2 px-4 text-left">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {transactions.map((transaction, index) => (
-                    <tr key={transaction.id_order} className="border-t">
+                    <tr key={transaction.id} className="border-t">
                       <td className="py-2 px-4">{index + 1}</td>
                       <td className="py-2 px-4">{transaction.produk_nama}</td>
                       <td className="py-2 px-4">{transaction.jumlah}</td>
                       <td className="py-2 px-4">{transaction.nama_pemesan}</td>
                       <td className="py-2 px-4">{transaction.alamat}</td>
-                      <td className="px-4 py-2">{transaction.status}</td>
+                      <td className="py-2 px-4">
+                        {transaction.metode_pembayaran}
+                      </td>
+                      <td className="py-2 px-4">
+                        {' '}
+                        Rp {transaction.total.toLocaleString('id-ID')}
+                      </td>
+                      <td className="py-2 px-4">
+                        <img
+                          src={`http://localhost:5000${transaction.bukti_pembayaran}`}
+                          alt="Bukti Pembayaraan"
+                          className="w-12 h-12 object-cover rounded"
+                          onError={(e) =>
+                            (e.target.src = '/path/to/default-image.jpg')
+                          } // fallback jika gagal
+                        />
+                      </td>
+                      <td className="px-4 py-2">
+                        {new Date(transaction.created_at).toLocaleDateString(
+                          'id-ID',
+                        )}
+                      </td>
                       <td className="py-2 px-4 flex space-x-2">
                         <button
                           onClick={() => handleEdit(transaction)}
@@ -142,14 +161,15 @@ const TransactionPage = () => {
           {/* Modal */}
           {showModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white p-6 rounded-lg w-1/3">
+              <div className="bg-white p-6 rounded-lg w-1/2">
                 <h2 className="text-xl font-bold mb-4">
                   {isEditing ? 'Edit Transaction' : 'Tambah Transaksi'}
                 </h2>
+
                 <input
                   type="text"
-                  placeholder="Produk"
-                  value={modalData.produk_nama}
+                  placeholder="Nama Produk"
+                  value={modalData.produk_nama || ''}
                   onChange={(e) =>
                     setModalData({ ...modalData, produk_nama: e.target.value })
                   }
@@ -158,7 +178,7 @@ const TransactionPage = () => {
                 <input
                   type="number"
                   placeholder="Jumlah"
-                  value={modalData.jumlah}
+                  value={modalData.jumlah || ''}
                   onChange={(e) =>
                     setModalData({ ...modalData, jumlah: e.target.value })
                   }
@@ -167,7 +187,7 @@ const TransactionPage = () => {
                 <input
                   type="text"
                   placeholder="Nama Pemesan"
-                  value={modalData.nama_pemesan}
+                  value={modalData.nama_pemesan || ''}
                   onChange={(e) =>
                     setModalData({ ...modalData, nama_pemesan: e.target.value })
                   }
@@ -176,7 +196,7 @@ const TransactionPage = () => {
                 <input
                   type="text"
                   placeholder="Alamat"
-                  value={modalData.alamat}
+                  value={modalData.alamat || ''}
                   onChange={(e) =>
                     setModalData({ ...modalData, alamat: e.target.value })
                   }
@@ -184,13 +204,26 @@ const TransactionPage = () => {
                 />
                 <input
                   type="text"
-                  placeholder="Status"
-                  value={modalData.status}
+                  placeholder="Metode Pembayaran"
+                  value={modalData.metode_pembayaran || ''}
                   onChange={(e) =>
-                    setModalData({ ...modalData, status: e.target.value })
+                    setModalData({
+                      ...modalData,
+                      metode_pembayaran: e.target.value,
+                    })
                   }
                   className="border px-4 py-2 mb-4 w-full"
                 />
+                <input
+                  type="number"
+                  placeholder="Total"
+                  value={modalData.total || ''}
+                  onChange={(e) =>
+                    setModalData({ ...modalData, total: e.target.value })
+                  }
+                  className="border px-4 py-2 mb-4 w-full"
+                />
+
                 <div className="flex justify-end space-x-2">
                   <button
                     onClick={() => setShowModal(false)}

@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const OrderPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { product } = location.state || {}; // Mengambil data produk yang diteruskan dari DetailPage
+  const { product } = location.state || {};
 
   if (!product) {
-    navigate('/'); // Arahkan ke halaman utama jika produk tidak ditemukan
+    navigate('/');
     return null;
   }
 
@@ -16,15 +16,19 @@ const OrderPage = () => {
   const [alamat, setAlamat] = useState('');
   const [metodePembayaran, setMetodePembayaran] = useState('COD');
   const [total, setTotal] = useState(product.harga); // Total harga berdasarkan jumlah
+  const [totalSetelahDiskon, setTotalSetelahDiskon] = useState(product.harga); // Total setelah diskon
   const [buktiPembayaran, setBuktiPembayaran] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Fungsi untuk menghitung total harga
+  // Fungsi untuk menghitung total harga dan diskon
   const handleJumlahChange = (event) => {
     const jumlahBaru = Number(event.target.value);
     if (jumlahBaru > 0 && Number.isInteger(jumlahBaru)) {
+      const totalHarga = jumlahBaru * product.harga;
+      const diskon = totalHarga > 80000 ? totalHarga * 0.1 : 0; // Diskon 10% jika total lebih dari Rp 80.000
       setJumlah(jumlahBaru);
-      setTotal(jumlahBaru * product.harga);
+      setTotal(totalHarga);
+      setTotalSetelahDiskon(totalHarga - diskon);
     } else {
       alert('Jumlah harus berupa angka bulat dan lebih dari 0!');
     }
@@ -46,14 +50,13 @@ const OrderPage = () => {
       return;
     }
 
-    // Gunakan FormData untuk mengirim data
     const formData = new FormData();
     formData.append('produk_id', product.id);
     formData.append('jumlah', jumlah);
     formData.append('nama_pemesan', namaPemesan);
     formData.append('alamat', alamat);
     formData.append('metode_pembayaran', metodePembayaran);
-    formData.append('total', total);
+    formData.append('total', totalSetelahDiskon); // Gunakan total setelah diskon
     if (buktiPembayaran) {
       formData.append('bukti_pembayaran', buktiPembayaran);
     }
@@ -65,19 +68,16 @@ const OrderPage = () => {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
-          // Jangan tambahkan Content-Type secara manual saat menggunakan FormData
         },
         body: formData,
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Backend Response:', data);
         alert('Pesanan berhasil dibuat!');
-        navigate('/'); // Arahkan ke halaman utama setelah berhasil
+        navigate('/');
       } else {
         const errorText = await response.text();
-        console.error('Response Error:', errorText);
         alert(errorText || 'Terjadi kesalahan!');
       }
     } catch (error) {
@@ -108,6 +108,9 @@ const OrderPage = () => {
             <span className="text-blue-500">
               Rp {Number(product.harga).toLocaleString('id-ID')}
             </span>
+          </p>
+          <p className="text-green-500 font-semibold text-center mb-6">
+            Beli lebih dari Rp 80.000, diskon 10%!
           </p>
 
           {/* Form Pemesanan */}
@@ -202,6 +205,12 @@ const OrderPage = () => {
                 {Number(total).toLocaleString('id-ID')}
               </span>
             </p>
+            {total > 80000 && (
+              <p className="text-green-500 font-semibold">
+                Diskon 10% diterapkan. Total setelah diskon: Rp{' '}
+                {Number(totalSetelahDiskon).toLocaleString('id-ID')}
+              </p>
+            )}
           </div>
         </div>
       </div>

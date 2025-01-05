@@ -13,6 +13,7 @@ import RegisterPage from './pages/RegisterPage';
 import OrderPage from './pages/OrderPage';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import Transaksi from './components/Admin/Transaksi';
+// import PageCart from './pages/PageCart';
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
             </MainLayout>
           }
         />
+
         <Route
           path="/products/:id"
           element={
@@ -43,6 +45,15 @@ const App = () => {
             </MainLayout>
           }
         />
+
+        {/* <Route
+          path="/cart"
+          element={
+            <MainLayout>
+              <PageCart />
+            </MainLayout>
+          }
+        /> */}
 
         <Route
           path="/order"

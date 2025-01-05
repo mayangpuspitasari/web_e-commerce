@@ -2,39 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userName, setUserName] = useState('');
-  
-    useEffect(() => {
-      const token = localStorage.getItem('userToken');
-      const name = localStorage.getItem('userName'); // Ambil nama dari localStorage
-      if (token) {
-        setIsLoggedIn(true);
-        setUserName(name || 'User'); // Berikan nilai default jika nama kosong
-      } else {
-        setIsLoggedIn(false);
-        setUserName('');
-      }
-    }, []);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
 
-
-    const toggleMenu = () => {
-      setIsMenuOpen(!isMenuOpen);
-    };
-  
-    const toggleUserMenu = () => {
-      setIsUserMenuOpen(!isUserMenuOpen);
-    };
-  
-    const handleLogout = () => {
-      // Hapus data login dari localStorage
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('userName');
+  useEffect(() => {
+    const token = localStorage.getItem('userToken');
+    const name = localStorage.getItem('userName'); // Ambil nama dari localStorage
+    if (token) {
+      setIsLoggedIn(true);
+      setUserName(name || 'User'); // Berikan nilai default jika nama kosong
+    } else {
       setIsLoggedIn(false);
       setUserName('');
-    };
+    }
+  }, []);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
+  const handleLogout = () => {
+    // Hapus data login dari localStorage
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userName');
+    setIsLoggedIn(false);
+    setUserName('');
+  };
 
   const handleMenuClick = () => {
     setIsMenuOpen(false);
@@ -162,56 +161,57 @@ const Navbar = () => {
 
           {/* Dropdown User */}
           <div className="flex items-center md:order-3">
-          {/* Dropdown User */}
-          <div className="relative">
-            <button
-              onClick={toggleUserMenu}
-              className="block py-2 px-4 focus:outline-none"
-            >
-              <svg
-                className="w-6 h-6"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
+            {/* Dropdown User */}
+            <div className="relative">
+              <button
+                onClick={toggleUserMenu}
+                className="block py-2 px-4 focus:outline-none"
               >
-                <circle fill="none" cx="12" cy="7" r="3" />
-                <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
-              </svg>
-            </button>
+                <svg
+                  className="w-6 h-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <circle fill="none" cx="12" cy="7" r="3" />
+                  <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
+                </svg>
+              </button>
 
-            {isUserMenuOpen && (
-              <div className="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-md w-48">
-                {isLoggedIn ? (
-                  <>
-                    <p className="block px-4 py-2 text-gray-700">
-                      Hi, <span className="font-bold">{userName || 'User'}</span>
-                    </p>
-                    <button
-                      onClick={handleLogout}
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      to="/login"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      to="/register"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Register
-                    </Link>
-                  </>
-                )}
-              </div>
-            )}
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-md w-48">
+                  {isLoggedIn ? (
+                    <>
+                      <p className="block px-4 py-2 text-gray-700">
+                        Hi,{' '}
+                        <span className="font-bold">{userName || 'User'}</span>
+                      </p>
+                      <button
+                        onClick={handleLogout}
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        to="/register"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Register
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </nav>
@@ -219,3 +219,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
