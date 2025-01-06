@@ -133,7 +133,7 @@ const Product = () => {
                     <th className="py-2 px-4 text-left">Title</th>
                     <th className="py-2 px-4 text-left">Price</th>
                     <th className="py-2 px-4 text-left">Description</th>
-                    <th className="py-2 px-4 text-left">Rating</th>
+                    <th className="py-2 px-4 text-left">Stok</th>
                     <th className="py-2 px-4 text-left">Actions</th>
                   </tr>
                 </thead>
@@ -222,7 +222,7 @@ const Product = () => {
 
                 <input
                   type="number"
-                  placeholder="Rating"
+                  placeholder="Stok"
                   value={modalData.rating}
                   onChange={(e) =>
                     setModalData({ ...modalData, rating: e.target.value })

@@ -64,14 +64,11 @@ const DetailPage = () => {
             </span>
           </p>
           <div className="flex justify-center gap-4">
-            <button 
-             onClick={handleBuyNow}
-            className="px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 shadow-md transform hover:scale-105 transition duration-300">
+            <button
+              onClick={handleBuyNow}
+              className="px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 shadow-md transform hover:scale-105 transition duration-300"
+            >
               Beli Sekarang
-            </button>
-            <button className="px-6 py-3 bg-gray-300 text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-400 shadow-md flex items-center gap-2 transform hover:scale-105 transition duration-300">
-              <FontAwesomeIcon icon={faShoppingCart} />
-              Keranjang
             </button>
           </div>
         </div>

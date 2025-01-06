@@ -71,21 +71,19 @@ const ProductPopuler = () => {
                     <FontAwesomeIcon
                       key={index}
                       icon={faStar}
-                      className={`text-yellow-400 ${index < product.rating ? 'text-yellow-500' : ''}`}
+                      className={`text-yellow-400 ${
+                        index < product.rating ? 'text-yellow-500' : ''
+                      }`}
                     />
                   ))}
                 </div>
                 <div className="flex justify-start gap-5 mt-4">
                   {/* Tombol Beli Sekarang */}
-                  <button 
+                  <button
                     onClick={() => handleBuyNow(product)} // Mengirim produk ke OrderPage
                     className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700"
                   >
                     Beli Sekarang
-                  </button>
-                  <button className="px-4 py-2 bg-gray-300 text-gray-800 text-sm font-medium rounded hover:bg-gray-400 flex items-center">
-                    <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
-                    Keranjang
                   </button>
                 </div>
               </div>
@@ -98,3 +96,4 @@ const ProductPopuler = () => {
 };
 
 export default ProductPopuler;
+

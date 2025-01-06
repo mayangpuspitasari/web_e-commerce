@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate dan Link
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import LoginInput from '../components/LoginInput';
 
 const LoginPages = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // Hook untuk navigasi
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,6 +14,11 @@ const LoginPages = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.username || !formData.password) {
+      setMessage('Username dan password harus diisi.');
+      return;
+    }
+
     try {
       const response = await axios.post(
         'http://localhost:5000/user/login',
@@ -22,7 +27,7 @@ const LoginPages = () => {
 
       const { token, role, username, user_id } = response.data;
 
-      // Simpan token dan role di localStorage
+      // Simpan token dan data lainnya di localStorage
       localStorage.setItem('userToken', token);
       localStorage.setItem('userRole', role);
       localStorage.setItem('userName', username);
@@ -30,16 +35,16 @@ const LoginPages = () => {
 
       // Redirect berdasarkan role
       if (role === 'admin') {
-        navigate('/admin'); // Arahkan ke halaman admin
+        navigate('/admin');
       } else if (role === 'user') {
-        navigate('/'); // Arahkan ke halaman utama (HomePage)
+        navigate('/');
       } else {
         setMessage('Role tidak dikenali');
       }
-
-      setMessage('Login berhasil');
     } catch (error) {
-      setMessage(error.response?.data || 'Terjadi kesalahan');
+      setMessage(
+        error.response?.data?.message || 'Terjadi kesalahan pada server.',
+      );
     }
   };
 
@@ -58,7 +63,7 @@ const LoginPages = () => {
             Login
           </button>
         </form>
-        <p className="mt-4 text-center text-gray-500">{message}</p>
+        {message && <p className="mt-4 text-center text-red-500">{message}</p>}
         <p className="mt-6 text-center text-gray-600">
           Belum punya akun?{' '}
           <Link

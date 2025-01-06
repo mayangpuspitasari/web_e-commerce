@@ -2,7 +2,7 @@ import React from 'react';
 
 const Kontak = () => {
   return (
-    <div className="bg-gray-100 py-10">
+    <div className="bg-gray-100 py-10" id="kontak">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-8">Kontak Kami</h2>
         <div className="flex flex-col lg:flex-row gap-8">

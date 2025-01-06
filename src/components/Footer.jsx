@@ -8,15 +8,15 @@ const Footer = () => {
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
           {/* Logo dan Deskripsi */}
           <div className="lg:w-1/3">
-            <h2 className="text-2xl font-bold mb-4">Brownis</h2>
+            <h2 className="text-2xl font-bold mb-4">Brownies Fundy</h2>
             <p className="text-gray-400">
-              Brownis adalah brand spesial yang menghadirkan berbagai varian
-              brownies lezat dengan kualitas terbaik. Kami menjual brownies
-              dengan tekstur lembut, rasa cokelat yang kaya, dan berbagai
-              topping menarik yang cocok untuk semua kalangan. Mulai dari
-              brownies klasik hingga kreasi modern dengan kombinasi rasa unik,
-              Brownis selalu berkomitmen untuk memberikan kepuasan dalam setiap
-              gigitan.
+              Brownies Fundy adalah brand spesial yang menghadirkan berbagai
+              varian brownies lezat dengan kualitas terbaik. Kami menjual
+              brownies dengan tekstur lembut, rasa cokelat yang kaya, dan
+              berbagai topping menarik yang cocok untuk semua kalangan. Mulai
+              dari brownies klasik hingga kreasi modern dengan kombinasi rasa
+              unik, Brownis selalu berkomitmen untuk memberikan kepuasan dalam
+              setiap gigitan.
             </p>
           </div>
 
@@ -72,7 +72,7 @@ const Footer = () => {
 
         {/* Hak Cipta */}
         <div className="mt-8 border-t border-gray-700 pt-6 text-center text-gray-500">
-          &copy; 2024 Brownies. Semua Hak Dilindungi.
+          &copy; 2024 BrowniesFundy. Semua Hak Dilindungi.
         </div>
       </div>
     </footer>

@@ -34,7 +34,7 @@ const TransactionPage = () => {
       await axios.delete(`${API_URL}/${id}`);
       fetchTransactions();
     } catch (error) {
-      console.error('Error deleting transaction:', error);
+      console.error('Error deleting product:', error);
     }
   };
 
@@ -146,7 +146,7 @@ const TransactionPage = () => {
                           <FaEdit className="w-5 h-5" />
                         </button>
                         <button
-                          onClick={() => handleDelete(transaction.id_order)}
+                          onClick={() => handleDelete(transaction.id)}
                           className="text-red-500 hover:text-red-700"
                         >
                           <FaTrash className="w-5 h-5" />

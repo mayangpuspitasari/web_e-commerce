@@ -49,10 +49,6 @@ const CardProduct = ({ product }) => {
           >
             Beli Sekarang
           </button>
-          <button className="px-4 py-2 bg-gray-300 text-gray-800 text-sm font-medium rounded hover:bg-gray-400 flex items-center">
-            <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
-            Keranjang
-          </button>
         </div>
       </div>
     </div>
@@ -70,3 +66,4 @@ CardProduct.propTypes = {
 };
 
 export default CardProduct;
+
